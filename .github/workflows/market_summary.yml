@@ -1,0 +1,31 @@
+name: US Market Summary
+
+on:
+  schedule:
+    # 毎日 22:00 UTC = 翌朝 7:00 JST (月〜金)
+    # 日曜〜木曜の22:00 UTC = 月〜金の7:00 JST
+    - cron: '0 22 * * 0-4'
+  workflow_dispatch:  # 手動実行ボタン
+
+jobs:
+  send-summary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run market summary
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: python market_summary.py
