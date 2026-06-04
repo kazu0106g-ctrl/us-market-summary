@@ -11,11 +11,7 @@ import requests
 from datetime import datetime
 import pytz
 
-DISCORD_WEBHOOK_URL = os.environ.get(
-    "DISCORD_WEBHOOK_URL",
-    "REMOVED_WEBHOOK_URL/"
-    "REMOVED_WEBHOOK_TOKEN"
-)
+DISCORD_WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK_URL", "").strip()
 
 INDICES = {
     "S&P 500":      "^GSPC",
@@ -137,6 +133,9 @@ def fmt(pct: float) -> str:
 
 
 def main() -> None:
+    if not DISCORD_WEBHOOK_URL:
+        raise SystemExit("DISCORD_WEBHOOK_URL is required")
+
     jst = pytz.timezone("Asia/Tokyo")
     now_jst = datetime.now(jst)
 
