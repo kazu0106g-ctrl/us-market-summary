@@ -4,7 +4,7 @@ on:
   schedule:
     # 毎日 22:00 UTC = 翌朝 7:00 JST (月〜金)
     # 日曜〜木曜の22:00 UTC = 月〜金の7:00 JST
-    - cron: '0 22 * * 0-4'
+    - cron: '0 22 * * 0-5'
   workflow_dispatch:  # 手動実行ボタン
 
 jobs:
